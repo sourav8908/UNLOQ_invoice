@@ -485,6 +485,7 @@
             <select id="in-mode" onchange="updatePreview()">
                 <option value="monthly">Monthly</option>
                 <option value="hourly">Hourly (Standard)</option>
+                <option value="rental">Equipment Rental</option>
             </select>
         </div>
 
@@ -787,16 +788,34 @@
             const mode = getVal('in-mode');
 
             // Sidebar Labels
-            document.getElementById('lbl-rate').textContent = (mode === 'hourly' ? 'Hourly Rate ($)' : 'Monthly Stipend ($)');
-            document.getElementById('lbl-tasks').textContent = (mode === 'hourly' ? 'Items (Description / Hours)' : 'Items (Description / Months)');
-            document.getElementById('btn-add-label').textContent = (mode === 'hourly' ? '+ Add Item' : '+ Add Month');
+            let rateLbl = 'Monthly Stipend ($)';
+            let qtyLbl = 'Items (Description / Months)';
+            let addLbl = '+ Add Month';
+
+            if (mode === 'hourly') {
+                rateLbl = 'Hourly Rate ($)';
+                qtyLbl = 'Items (Description / Hours)';
+                addLbl = '+ Add Item';
+            } else if (mode === 'rental') {
+                rateLbl = 'Monthly Rental Fee ($)';
+                qtyLbl = 'Items (Description / Rental Period)';
+                addLbl = '+ Add Equipment';
+            }
+
+            document.getElementById('lbl-rate').textContent = rateLbl;
+            document.getElementById('lbl-tasks').textContent = qtyLbl;
+            document.getElementById('btn-add-label').textContent = addLbl;
 
             // Preview Headings
             setTxt('pv-title', 'INVOICE');
             document.getElementById('pv-row-mobile').style.display = (mode === 'monthly' ? 'block' : 'none');
             document.getElementById('pv-row-designation').style.display = (mode === 'monthly' ? 'block' : 'none');
             document.getElementById('pv-row-location').style.display = (mode === 'hourly' ? 'block' : 'none');
-            setTxt('pv-th-qty', mode === 'hourly' ? 'Qty (Hrs)' : 'Qty (months)');
+
+            let thQty = 'Qty (months)';
+            if (mode === 'hourly') thQty = 'Qty (Hrs)';
+            else if (mode === 'rental') thQty = 'Qty (Months/Rental)';
+            setTxt('pv-th-qty', thQty);
 
             // Header & Provider
             const logoUrl = getVal('in-logo-url');
