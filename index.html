@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Invoice Generator - Professional Template</title>
+    <title>Master Invoice Generator - Professional Template</title>
+    <!-- Premium Handwriting Fonts for Digital Signature -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&family=Satisfy&display=swap"
+        rel="stylesheet">
     <style>
         /* Generator UI Styles */
         :root {
@@ -299,7 +303,7 @@
 
         .pv-th:last-child {
             text-align: right;
-            width: 60px;
+            width: 80px;
         }
 
         .pv-td {
@@ -383,11 +387,21 @@
         .pv-signature-line .line {
             width: 200px;
             border-top: 2px solid #334155;
-            margin-top: 30px;
+            margin-top: 15px;
             padding-top: 8px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #1e293b;
+        }
+
+        .pv-digital-sign {
+            font-size: 26px;
+            margin-bottom: -15px;
+            color: #1e293b;
+            min-height: 40px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
         }
 
         .pv-description-section {
@@ -407,7 +421,9 @@
         .pv-description-section p {
             font-size: 10px;
             color: #334155;
+            white-space: pre-wrap;
             line-height: 1.5;
+            text-align: justify;
         }
 
         /* Print Override */
@@ -444,10 +460,8 @@
             #invoice-preview {
                 box-shadow: none;
                 padding: 15mm;
-                /* Balanced padding for professional look */
                 margin: 0 auto !important;
                 width: 210mm !important;
-                /* Force strict A4 width */
                 transform: none !important;
                 min-height: 297mm;
                 height: auto;
@@ -465,23 +479,40 @@
     <div class="sidebar no-print">
         <h2>📑 Generator</h2>
 
+        <h3>📊 Billing Mode</h3>
+        <div class="form-group">
+            <label>Select Mode</label>
+            <select id="in-mode" onchange="updatePreview()">
+                <option value="monthly">Monthly</option>
+                <option value="hourly">Hourly (Standard)</option>
+            </select>
+        </div>
+
         <h3>🎨 Branding</h3>
         <div class="form-group">
             <label>Logo URL / Path</label>
             <input type="text" id="in-logo-url" value="logo.png">
         </div>
 
-        <h3>👤 Service Provider Info</h3>
+        <h3>👤 Provider Info</h3>
         <div class="form-group">
-            <label>Provider Name</label>
+            <label>Name</label>
             <input type="text" id="in-my-name" value="[Your Name]">
         </div>
-        <div class="form-group">
-            <label>Provider Email</label>
-            <input type="text" id="in-my-email" value="your.email@example.com">
+        <div class="form-group mode-monthly">
+            <label>Mobile</label>
+            <input type="text" id="in-my-mobile" value="[Your Mobile]">
         </div>
         <div class="form-group">
-            <label>Provider Location</label>
+            <label>Email</label>
+            <input type="text" id="in-my-email" value="[Your Email]">
+        </div>
+        <div class="form-group mode-monthly">
+            <label>Designation / Role</label>
+            <input type="text" id="in-my-designation" value="[Your Designation]">
+        </div>
+        <div class="form-group mode-hourly" style="display:none">
+            <label>Location</label>
             <input type="text" id="in-my-location" value="[Your Location]">
         </div>
 
@@ -489,23 +520,23 @@
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
                 <label>Invoice #</label>
-                <input type="text" id="in-number" value="INV-2026-001">
+                <input type="text" id="in-number" value="INV-2026-DIBS-001">
             </div>
             <div class="form-group">
                 <label>Date</label>
-                <input type="text" id="in-date" value="28 January 2026">
+                <input type="text" id="in-date" value="31 March 2026">
             </div>
         </div>
         <div class="form-group">
             <label>Billing Period</label>
-            <input type="text" id="in-period" value="1 Jan 2026 – 31 Jan 2026">
+            <input type="text" id="in-period" value="1 Feb 2026 – 31 Mar 2026">
         </div>
 
         <h3>🏢 Client & Project</h3>
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
                 <label>Client Name</label>
-                <input type="text" id="in-client-name" value="Unloq®">
+                <input type="text" id="in-client-name" value="UNLOQ SOLUTIONS LTD">
             </div>
             <div class="form-group">
                 <label>Client Country</label>
@@ -523,20 +554,22 @@
 
         <h3>🛠️ Services & Tasks</h3>
         <div class="form-group">
-            <label>Description Box</label>
+            <label>Project Deliverables</label>
             <textarea id="in-service-summary"
-                rows="3">Description of services provided during the billing period.</textarea>
+                rows="5">Work Delivered:
+• [Deliverable 1: Brief description of task completed]
+• [Deliverable 2: Brief description of task completed]</textarea>
         </div>
         <div class="form-group">
-            <label>Hourly Rate ($)</label>
-            <input type="number" id="in-rate" value="10">
+            <label id="lbl-rate">Monthly Stipend ($)</label>
+            <input type="number" id="in-rate" value="600">
         </div>
         <div class="form-group">
-            <label>Tasks (Desc / Hours)</label>
+            <label id="lbl-tasks">Items (Description / Months)</label>
             <div id="service-inputs" class="service-rows">
                 <!-- Service rows injected here -->
             </div>
-            <button class="btn-add" onclick="addRow()">+ Add Task</button>
+            <button class="btn-add" id="btn-add-label" onclick="addRow()">+ Add Month</button>
         </div>
 
         <h3>💳 Payment Details</h3>
@@ -547,7 +580,7 @@
             </div>
             <div class="form-group">
                 <label>Account Holder</label>
-                <input type="text" id="in-bank-holder" value="[Your Name]">
+                <input type="text" id="in-bank-holder" value="[Account Holder]">
             </div>
         </div>
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -556,26 +589,30 @@
                 <input type="text" id="in-bank-acc" value="[Account Number]">
             </div>
             <div class="form-group">
-                <label>IFSC Code</label>
-                <input type="text" id="in-bank-ifsc" value="[IFSC Code]">
+                <label>IFSC Code/SWIFT</label>
+                <input type="text" id="in-bank-ifsc" value="[IFSC/SWIFT]">
             </div>
         </div>
 
         <h3>✏️ Footer & Signature</h3>
         <div class="form-group">
             <label>Payment Terms</label>
-            <input type="text" id="in-pay-terms" value="Payment terms: Net 30">
+            <input type="text" id="in-pay-terms" value="Paid monthly via Wise">
         </div>
         <div class="form-group">
             <label>Signature Text (Name)</label>
             <input type="text" id="in-sign-name" value="[Your Name]">
         </div>
         <div class="form-group">
-            <label>Signature Text (Title)</label>
-            <input type="text" id="in-sign-title" value="[Your Title]">
+            <label>Signature Font / Style</label>
+            <select id="in-sign-font" onchange="updatePreview()">
+                <option value="'Dancing Script', cursive">Elegant - Dancing Script</option>
+                <option value="'Pacifico', cursive">Casual - Pacifico</option>
+                <option value="'Satisfy', cursive">Modern - Satisfy</option>
+                <option value="inherit">Simple - Plain Text</option>
+            </select>
         </div>
-
-        <button class="btn-print" onclick="window.print()">🚀 Generate Professional PDF</button>
+        <button class="btn-print" onclick="window.print()">🚀 Generate Master PDF</button>
         <div style="height: 50px;"></div>
     </div>
 
@@ -583,82 +620,97 @@
         <div id="invoice-preview" class="invoice-body">
             <div class="pv-header">
                 <div class="pv-header-left">
-                    <h1>INVOICE</h1>
-                    <p><strong>Name:</strong> <span id="pv-my-name">[Your Name]</span></p>
-                    <p><strong>Email:</strong> <span id="pv-my-email">your.email@example.com</span></p>
-                    <p><strong>Location:</strong> <span id="pv-my-location">[Your Location]</span></p>
+                    <h1 id="pv-title" style="color: #1e293b; margin-bottom: 0;">INVOICE</h1>
+                    <div id="pv-contact-box">
+                        <p id="pv-row-name"><strong>Employee:</strong> <span id="pv-my-name">[Your Name]</span></p>
+                        <p id="pv-row-mobile"><strong>Mobile:</strong> <span id="pv-my-mobile">[Your Mobile]</span></p>
+                        <p id="pv-row-email"><strong>Email:</strong> <span id="pv-my-email">[Your Email]</span></p>
+                        <p id="pv-row-designation"><strong>Designation:</strong> <span id="pv-my-designation">[Your
+                                Designation]</span></p>
+                        <p id="pv-row-location" style="display:none"><strong>Location:</strong> <span
+                                id="pv-my-location">[Your Location]</span></p>
+                    </div>
                 </div>
                 <div class="pv-header-right">
                     <img id="pv-logo" src="logo.png" class="pv-logo" alt="Logo">
-                    <div class="pv-invoice-number" id="pv-number">INV-2026-001</div>
-                    <div class="pv-invoice-date" id="pv-date">Invoice Date: 28 January 2026</div>
-                    <div class="pv-invoice-date" id="pv-period">Billing Period: 1 Jan 2026 – 31 Jan 2026</div>
+                    <div class="pv-invoice-number" id="pv-number">INV-2026-DIBS-001</div>
+                    <div class="pv-invoice-date" id="pv-date">Invoice Date: 31 March 2026</div>
+                    <div class="pv-invoice-date" id="pv-period">Billing Period: 1 Feb 2026 – 31 Mar 2026</div>
                 </div>
             </div>
 
             <div class="pv-billing-info">
                 <div class="pv-info-section">
-                    <h3>Billed To</h3>
-                    <p><strong id="pv-client-name">[Client Name]</strong></p>
-                    <p id="pv-client-addr">[Client Country]</p>
+                    <h3>Client</h3>
+                    <p><strong id="pv-client-name">UNLOQ SOLUTIONS LTD</strong></p>
+                    <p id="pv-client-addr">United Kingdom</p>
                 </div>
                 <div class="pv-info-section pv-project-align">
-                    <h3>Project</h3>
+                    <h3>Project Information</h3>
                     <p><strong id="pv-project-title">[Project Title]</strong></p>
                     <p id="pv-project-desc">[Project Subtitle]</p>
                 </div>
             </div>
 
             <div class="pv-services-section">
-                <h2>Service Breakdown</h2>
+                <h2 id="pv-service-label">Service Breakdown</h2>
                 <table class="pv-table">
                     <thead class="pv-thead">
                         <tr>
-                            <th class="pv-th">Task Description</th>
-                            <th class="pv-th">Hours</th>
+                            <th class="pv-th">Description</th>
+                            <th class="pv-th" id="pv-th-qty">Qty (months)</th>
+                            <th class="pv-th">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="pv-services">
-                        <!-- Rows injected here -->
+                        <tr>
+                            <td class="pv-td">[Work Item 1]</td>
+                            <td class="pv-td">1.0</td>
+                            <td class="pv-td">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td class="pv-td">[Work Item 2]</td>
+                            <td class="pv-td">1.0</td>
+                            <td class="pv-td">$0.00</td>
+                        </tr>
+                        <tr class="pv-total-row">
+                            <td class="pv-td" colspan="2"><strong>Total</strong></td>
+                            <td class="pv-td"><strong>USD $0.00</strong></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="pv-description-section">
-                <h3>Description of Services</h3>
-                <p id="pv-service-summary">Description of services provided during the billing period.</p>
-            </div>
-
-            <div class="pv-amount-due">
-                <h3>Total Amount Due</h3>
-                <div class="amount" id="pv-total">USD $0</div>
+                <h3>Project Deliverables & Work Completed</h3>
+                <p id="pv-service-summary">Work Delivered:
+                    • [Deliverable 1: Brief description of task completed]
+                    • [Deliverable 2: Brief description of task completed]</p>
             </div>
 
             <div class="pv-payment-details">
                 <div>
                     <h3>Payment Details</h3>
-                    <p><strong>Account Holder:</strong> <span id="pv-bank-holder">[Your Name]</span></p>
+                    <p><strong>Account Holder:</strong> <span id="pv-bank-holder">[Account Holder]</span></p>
                     <p><strong>Bank Name:</strong> <span id="pv-bank-name">[Bank Name]</span></p>
                     <p><strong>Account Number:</strong> <span id="pv-bank-acc">[Account Number]</span></p>
-                    <p><strong>IFSC:</strong> <span id="pv-bank-ifsc">[IFSC Code]</span></p>
+                    <p><strong>IFSC/SWIFT:</strong> <span id="pv-bank-ifsc">[IFSC/SWIFT]</span></p>
                 </div>
                 <div class="pv-right-nudge">
                     <h3>Notes</h3>
-                    <p id="pv-pay-terms">Payment terms: Net 30</p>
-                    <p>All services completed and delivered</p>
-                    <p>Professional quality guaranteed</p>
+                    <p id="pv-pay-terms">Paid monthly via Wise</p>
+                    <p>Work: [Project Scope]</p>
+                    <p>Role: [Your Designation]</p>
                 </div>
             </div>
 
             <div class="pv-declaration">
-                <p><strong>Declaration:</strong> I confirm that the services listed above were provided during the
-                    stated period.</p>
+                <p><strong>Declaration:</strong> I confirm that the internship services listed above were provided
+                    during the stated period as per the agreed internship terms.</p>
                 <div class="pv-signature-line">
-                    <div>
-                        <div class="line" id="pv-sign-box">[Your Name]<br>[Your Title]</div>
-                    </div>
-                    <div>
-                        <div class="line" id="pv-sign-date">28 January 2026<br>Date</div>
+                    <div style="max-width: 250px;">
+                        <div class="pv-digital-sign" id="pv-sign-fancy">[Your Name]</div>
+                        <div class="line" id="pv-sign-box">[Invoice Date]</div>
                     </div>
                 </div>
             </div>
@@ -667,8 +719,8 @@
 
     <script>
         let tasks = [
-            { desc: 'Initial research and design phase', hours: 4.0 },
-            { desc: 'Backend infrastructure setup', hours: 8.5 }
+            { desc: '[Work Item 1]', hours: 1.0 },
+            { desc: '[Work Item 2]', hours: 1.0 }
         ];
 
         function init() {
@@ -676,14 +728,14 @@
             updatePreview();
 
             const fields = [
-                'in-logo-url',
-                'in-my-name', 'in-my-email', 'in-my-location',
+                'in-mode', 'in-logo-url',
+                'in-my-name', 'in-my-mobile', 'in-my-email', 'in-my-location', 'in-my-designation',
                 'in-number', 'in-date', 'in-period',
                 'in-client-name', 'in-client-addr',
                 'in-project-title', 'in-project-desc',
                 'in-service-summary', 'in-rate',
                 'in-bank-name', 'in-bank-holder', 'in-bank-acc', 'in-bank-ifsc',
-                'in-pay-terms', 'in-sign-name', 'in-sign-title'
+                'in-pay-terms', 'in-sign-name', 'in-sign-font'
             ];
 
             fields.forEach(id => {
@@ -721,7 +773,7 @@
                 const div = document.createElement('div');
                 div.className = 'service-row';
                 div.innerHTML = `
-                    <div class="form-group"><input type="text" placeholder="Task description" value="${task.desc}" oninput="tasks[${i}].desc = this.value; updatePreview()"></div>
+                    <div class="form-group"><input type="text" placeholder="Description" value="${task.desc}" oninput="tasks[${i}].desc = this.value; updatePreview()"></div>
                     <div class="form-group"><input type="number" step="0.5" value="${task.hours}" oninput="tasks[${i}].hours = parseFloat(this.value) || 0; updatePreview()"></div>
                     <button class="btn-remove" onclick="removeRow(${i})">×</button>
                 `;
@@ -731,7 +783,20 @@
 
         function updatePreview() {
             const getVal = (id) => document.getElementById(id).value;
-            const setTxt = (id, val) => document.getElementById(id).textContent = val;
+            const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            const mode = getVal('in-mode');
+
+            // Sidebar Labels
+            document.getElementById('lbl-rate').textContent = (mode === 'hourly' ? 'Hourly Rate ($)' : 'Monthly Stipend ($)');
+            document.getElementById('lbl-tasks').textContent = (mode === 'hourly' ? 'Items (Description / Hours)' : 'Items (Description / Months)');
+            document.getElementById('btn-add-label').textContent = (mode === 'hourly' ? '+ Add Item' : '+ Add Month');
+
+            // Preview Headings
+            setTxt('pv-title', 'INVOICE');
+            document.getElementById('pv-row-mobile').style.display = (mode === 'monthly' ? 'block' : 'none');
+            document.getElementById('pv-row-designation').style.display = (mode === 'monthly' ? 'block' : 'none');
+            document.getElementById('pv-row-location').style.display = (mode === 'hourly' ? 'block' : 'none');
+            setTxt('pv-th-qty', mode === 'hourly' ? 'Qty (Hrs)' : 'Qty (months)');
 
             // Header & Provider
             const logoUrl = getVal('in-logo-url');
@@ -747,6 +812,8 @@
 
             setTxt('pv-my-name', getVal('in-my-name'));
             setTxt('pv-my-email', getVal('in-my-email'));
+            setTxt('pv-my-mobile', getVal('in-my-mobile'));
+            setTxt('pv-my-designation', getVal('in-my-designation'));
             setTxt('pv-my-location', getVal('in-my-location'));
             setTxt('pv-number', getVal('in-number'));
             setTxt('pv-date', 'Invoice Date: ' + getVal('in-date'));
@@ -767,28 +834,32 @@
             setTxt('pv-pay-terms', getVal('in-pay-terms'));
 
             // Signature
-            document.getElementById('pv-sign-box').innerHTML = `${getVal('in-sign-name')}<br>${getVal('in-sign-title')}`;
-            document.getElementById('pv-sign-date').innerHTML = `${getVal('in-date')}<br>Date`;
+            const sigName = getVal('in-sign-name');
+            const sigFont = getVal('in-sign-font');
+            const fancySign = document.getElementById('pv-sign-fancy');
+            fancySign.textContent = sigName;
+            fancySign.style.fontFamily = sigFont;
+
+            document.getElementById('pv-sign-box').innerHTML = `${getVal('in-date')}`;
 
             // Table Rows
             const tbody = document.getElementById('pv-services');
             tbody.innerHTML = '';
-            let totalHours = 0;
+            let totalAmount = 0;
+            const rate = parseFloat(getVal('in-rate')) || 0;
             tasks.forEach(task => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td class="pv-td">${task.desc || 'New Task'}</td><td class="pv-td">${task.hours.toFixed(1)}</td>`;
+                const amount = (task.hours * rate);
+                tr.innerHTML = `<td class="pv-td">${task.desc || 'Item'}</td><td class="pv-td">${task.hours.toFixed(1)}</td><td class="pv-td">$${amount.toFixed(2)}</td>`;
                 tbody.appendChild(tr);
-                totalHours += task.hours;
+                totalAmount += amount;
             });
 
             // Total Hours & Amount
             const totalRow = document.createElement('tr');
             totalRow.className = 'pv-total-row';
-            totalRow.innerHTML = `<td class="pv-td"><strong>Total Hours</strong></td><td class="pv-td"><strong>${totalHours.toFixed(1)}</strong></td>`;
+            totalRow.innerHTML = `<td class="pv-td" colspan="2"><strong>Total</strong></td><td class="pv-td"><strong>USD $${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></td>`;
             tbody.appendChild(totalRow);
-
-            const rate = parseFloat(getVal('in-rate')) || 0;
-            setTxt('pv-total', 'USD $' + (totalHours * rate).toLocaleString());
 
             adjustScale();
         }
