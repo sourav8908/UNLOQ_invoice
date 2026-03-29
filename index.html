@@ -488,6 +488,13 @@
                 <option value="rental">Equipment Rental</option>
             </select>
         </div>
+        <div class="form-group">
+            <label>Base Currency</label>
+            <select id="in-currency" onchange="updatePreview()">
+                <option value="USD">USD ($)</option>
+                <option value="INR">INR (₹)</option>
+            </select>
+        </div>
 
         <h3>🎨 Branding</h3>
         <div class="form-group">
@@ -562,7 +569,7 @@
 • [Deliverable 2: Brief description of task completed]</textarea>
         </div>
         <div class="form-group">
-            <label id="lbl-rate">Monthly Stipend ($)</label>
+            <label id="lbl-rate">Rate (USD $)</label>
             <input type="number" id="in-rate" value="600">
         </div>
         <div class="form-group">
@@ -729,7 +736,7 @@
             updatePreview();
 
             const fields = [
-                'in-mode', 'in-logo-url',
+                'in-mode', 'in-currency', 'in-logo-url',
                 'in-my-name', 'in-my-mobile', 'in-my-email', 'in-my-location', 'in-my-designation',
                 'in-number', 'in-date', 'in-period',
                 'in-client-name', 'in-client-addr',
@@ -786,18 +793,20 @@
             const getVal = (id) => document.getElementById(id).value;
             const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
             const mode = getVal('in-mode');
+            const currency = getVal('in-currency');
+            const curSym = currency === 'USD' ? '$' : '₹';
 
             // Sidebar Labels
-            let rateLbl = 'Monthly Stipend ($)';
+            let rateLbl = `Monthly Stipend (${curSym})`;
             let qtyLbl = 'Items (Description / Months)';
             let addLbl = '+ Add Month';
 
             if (mode === 'hourly') {
-                rateLbl = 'Hourly Rate ($)';
+                rateLbl = `Hourly Rate (${curSym})`;
                 qtyLbl = 'Items (Description / Hours)';
                 addLbl = '+ Add Item';
             } else if (mode === 'rental') {
-                rateLbl = 'Monthly Rental Fee ($)';
+                rateLbl = `Monthly Rental Fee (${curSym})`;
                 qtyLbl = 'Items (Description / Rental Period)';
                 addLbl = '+ Add Equipment';
             }
@@ -869,15 +878,15 @@
             tasks.forEach(task => {
                 const tr = document.createElement('tr');
                 const amount = (task.hours * rate);
-                tr.innerHTML = `<td class="pv-td">${task.desc || 'Item'}</td><td class="pv-td">${task.hours.toFixed(1)}</td><td class="pv-td">$${amount.toFixed(2)}</td>`;
+                tr.innerHTML = `<td class="pv-td">${task.desc || 'Item'}</td><td class="pv-td">${task.hours.toFixed(1)}</td><td class="pv-td">${curSym}${amount.toFixed(2)}</td>`;
                 tbody.appendChild(tr);
                 totalAmount += amount;
             });
 
-            // Total Hours & Amount
+            // Total Rows
             const totalRow = document.createElement('tr');
             totalRow.className = 'pv-total-row';
-            totalRow.innerHTML = `<td class="pv-td" colspan="2"><strong>Total</strong></td><td class="pv-td"><strong>USD $${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></td>`;
+            totalRow.innerHTML = `<td class="pv-td" colspan="2"><strong>Total</strong></td><td class="pv-td"><strong>${currency} ${curSym}${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></td>`;
             tbody.appendChild(totalRow);
 
             adjustScale();
