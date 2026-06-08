@@ -528,7 +528,7 @@
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
                 <label>Invoice #</label>
-                <input type="text" id="in-number" value="INV-2026-DIBS-001">
+                <input type="text" id="in-number" value="INV-2026-">
             </div>
             <div class="form-group">
                 <label>Date</label>
@@ -641,7 +641,7 @@
                 </div>
                 <div class="pv-header-right">
                     <img id="pv-logo" src="logo.png" class="pv-logo" alt="Logo">
-                    <div class="pv-invoice-number" id="pv-number">INV-2026-DIBS-001</div>
+                    <div class="pv-invoice-number" id="pv-number">INV-2026-</div>
                     <div class="pv-invoice-date" id="pv-date">Invoice Date: 31 March 2026</div>
                     <div class="pv-invoice-date" id="pv-period">Billing Period: 1 Feb 2026 – 31 Mar 2026</div>
                 </div>
@@ -656,7 +656,6 @@
                 <div class="pv-info-section pv-project-align">
                     <h3>Project Information</h3>
                     <p><strong id="pv-project-title">[Project Title]</strong></p>
-                    <p id="pv-project-desc">[Project Subtitle]</p>
                 </div>
             </div>
 
@@ -731,7 +730,17 @@
             { desc: '[Work Item 2]', hours: 1.0 }
         ];
 
+        function genInvoiceSuffix() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let s = '';
+            for (let i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)];
+            return s;
+        }
+
         function init() {
+            const numEl = document.getElementById('in-number');
+            numEl.value = 'INV-2026-' + genInvoiceSuffix();
+
             renderInputs();
             updatePreview();
 
@@ -740,7 +749,7 @@
                 'in-my-name', 'in-my-mobile', 'in-my-email', 'in-my-location', 'in-my-designation',
                 'in-number', 'in-date', 'in-period',
                 'in-client-name', 'in-client-addr',
-                'in-project-title', 'in-project-desc',
+                'in-project-title',
                 'in-service-summary', 'in-rate',
                 'in-bank-name', 'in-bank-holder', 'in-bank-acc', 'in-bank-ifsc',
                 'in-pay-terms', 'in-sign-name', 'in-sign-font'
@@ -851,7 +860,6 @@
             setTxt('pv-client-name', getVal('in-client-name'));
             setTxt('pv-client-addr', getVal('in-client-addr'));
             setTxt('pv-project-title', getVal('in-project-title'));
-            setTxt('pv-project-desc', getVal('in-project-desc'));
             setTxt('pv-service-summary', getVal('in-service-summary'));
 
             // Bank & Footer
