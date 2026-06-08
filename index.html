@@ -186,11 +186,13 @@
         /* INVOICE INTERNAL STYLES (Scoped) */
         .invoice-body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 11px;
-            line-height: 1.4;
-            color: #333;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #1e293b;
             -webkit-user-select: text !important;
             user-select: text !important;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
         .pv-header {
@@ -211,8 +213,8 @@
 
         .pv-header-left p {
             color: #64748b;
-            font-size: 10px;
-            margin: 1px 0;
+            font-size: 11px;
+            margin: 2px 0;
         }
 
         .pv-header-right {
@@ -231,7 +233,7 @@
         }
 
         .pv-invoice-number {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: #2563eb;
             margin-bottom: 0;
@@ -239,9 +241,9 @@
         }
 
         .pv-invoice-date {
-            font-size: 10px;
+            font-size: 11px;
             color: #64748b;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
         .pv-billing-info {
@@ -252,7 +254,7 @@
         }
 
         .pv-info-section h3 {
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
             color: #64748b;
             margin-bottom: 5px;
@@ -260,7 +262,7 @@
         }
 
         .pv-info-section p {
-            font-size: 11px;
+            font-size: 12px;
             margin: 2px 0;
             color: #1e293b;
         }
@@ -292,12 +294,12 @@
         }
 
         .pv-th {
-            padding: 6px 8px;
+            padding: 7px 8px;
             text-align: left;
-            font-size: 9px;
+            font-size: 10px;
             text-transform: uppercase;
             color: #64748b;
-            font-weight: 600;
+            font-weight: 700;
             border-bottom: 1px solid #cbd5e1;
         }
 
@@ -307,9 +309,10 @@
         }
 
         .pv-td {
-            padding: 5px 8px;
+            padding: 6px 8px;
             border-bottom: 1px solid #e2e8f0;
-            color: #334155;
+            color: #1e293b;
+            font-size: 12px;
         }
 
         .pv-td:last-child {
@@ -355,19 +358,19 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin: 15px 0;
-            font-size: 10px;
+            font-size: 11px;
         }
 
         .pv-payment-details h3 {
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
             color: #64748b;
             margin-bottom: 5px;
         }
 
         .pv-payment-details p {
-            margin: 2px 0;
-            color: #334155;
+            margin: 3px 0;
+            color: #1e293b;
         }
 
         .pv-right-nudge {
@@ -412,17 +415,17 @@
         }
 
         .pv-description-section h3 {
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
             color: #64748b;
             margin-bottom: 5px;
         }
 
         .pv-description-section p {
-            font-size: 10px;
-            color: #334155;
+            font-size: 11px;
+            color: #1e293b;
             white-space: pre-wrap;
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: justify;
         }
 
@@ -435,7 +438,7 @@
 
             @page {
                 size: A4;
-                margin: 0;
+                margin: 12mm 14mm;
             }
 
             body {
@@ -459,17 +462,20 @@
 
             #invoice-preview {
                 box-shadow: none;
-                padding: 15mm;
-                margin: 0 auto !important;
-                width: 210mm !important;
+                padding: 0;
+                margin: 0 !important;
+                width: 100% !important;
                 transform: none !important;
-                min-height: 297mm;
+                min-height: auto;
                 height: auto;
             }
 
             .invoice-body {
                 padding: 0 !important;
-                width: 210mm !important;
+                width: 100% !important;
+                font-size: 12px !important;
+                -webkit-font-smoothing: antialiased;
+                text-rendering: optimizeLegibility;
             }
         }
     </style>
