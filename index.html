@@ -324,13 +324,17 @@
         .pv-total-row {
             background: #fefce8;
             font-weight: 700;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .pv-total-row td {
             padding: 8px;
             border-top: 2px solid #cbd5e1 !important;
             border-bottom: 2px solid #cbd5e1 !important;
+        }
+
+        .pv-total-row td:last-child {
+            white-space: nowrap;
         }
 
         .pv-amount-due {
@@ -358,19 +362,27 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin: 15px 0;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .pv-payment-details h3 {
             font-size: 11px;
             text-transform: uppercase;
             color: #64748b;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .pv-payment-details p {
-            margin: 3px 0;
+            margin: 4px 0;
             color: #1e293b;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pv-payment-details strong {
+            font-weight: 700;
+            color: #0f172a;
         }
 
         .pv-right-nudge {
@@ -439,6 +451,9 @@
             @page {
                 size: A4;
                 margin: 12mm 14mm;
+                /* suppresses browser header/footer in supporting browsers */
+                @top-center { content: none; }
+                @bottom-center { content: none; }
             }
 
             body {
