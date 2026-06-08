@@ -602,6 +602,20 @@
             </div>
         </div>
 
+        <h3>📋 Declaration</h3>
+        <div class="form-group">
+            <label>Role Type</label>
+            <select id="in-role-type" onchange="onRoleChange()">
+                <option value="intern">Intern</option>
+                <option value="employee">Employee</option>
+                <option value="contractor">Contractor</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Declaration Text</label>
+            <textarea id="in-declaration" rows="3" oninput="updatePreview()">I confirm that the internship services listed above were provided during the stated period as per the agreed internship terms.</textarea>
+        </div>
+
         <h3>✏️ Footer & Signature</h3>
         <div class="form-group">
             <label>Payment Terms</label>
@@ -710,8 +724,7 @@
             </div>
 
             <div class="pv-declaration">
-                <p><strong>Declaration:</strong> I confirm that the internship services listed above were provided
-                    during the stated period as per the agreed internship terms.</p>
+                <p><strong>Declaration:</strong> <span id="pv-declaration-text">I confirm that the internship services listed above were provided during the stated period as per the agreed internship terms.</span></p>
                 <div class="pv-signature-line">
                     <div style="max-width: 250px;">
                         <div class="pv-digital-sign" id="pv-sign-fancy">[Your Name]</div>
@@ -727,6 +740,18 @@
             { desc: '[Work Item 1]', hours: 1.0 },
             { desc: '[Work Item 2]', hours: 1.0 }
         ];
+
+        const DECLARATIONS = {
+            intern:     'I confirm that the internship services listed above were provided during the stated period as per the agreed internship terms.',
+            employee:   'I confirm that the services listed above were delivered during the stated period as per the employment agreement and applicable company policies.',
+            contractor: 'I confirm that the contract services listed above were completed during the stated period as per the agreed contract terms and scope of work.'
+        };
+
+        function onRoleChange() {
+            const role = document.getElementById('in-role-type').value;
+            document.getElementById('in-declaration').value = DECLARATIONS[role];
+            updatePreview();
+        }
 
         function genInvoiceSuffix() {
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -750,7 +775,8 @@
                 'in-project-title',
                 'in-service-summary', 'in-rate',
                 'in-bank-name', 'in-bank-holder', 'in-bank-acc', 'in-bank-ifsc',
-                'in-pay-terms', 'in-sign-name', 'in-sign-font'
+                'in-pay-terms', 'in-sign-name', 'in-sign-font',
+                'in-declaration'
             ];
 
             fields.forEach(id => {
@@ -866,6 +892,7 @@
             setTxt('pv-bank-acc', getVal('in-bank-acc'));
             setTxt('pv-bank-ifsc', getVal('in-bank-ifsc'));
             setTxt('pv-pay-terms', getVal('in-pay-terms'));
+            setTxt('pv-declaration-text', getVal('in-declaration'));
 
             // Signature
             const sigName = getVal('in-sign-name');
