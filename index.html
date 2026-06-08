@@ -637,7 +637,7 @@
         <h3>☁️ Data Logging (Google Sheets)</h3>
         <div class="form-group">
             <label>Apps Script URL (paste here to enable logging)</label>
-            <input type="text" id="in-sheets-url" placeholder="https://script.google.com/macros/s/...">
+            <input type="text" id="in-sheets-url" value="https://script.google.com/a/macros/unloq.co/s/AKfycbw1GSO10xuAbLN3OTLkhXg96DcbE7pHcpr-pfY5VJvP2DR-CZ41ZeuhqtgX3FONNqU/exec">
         </div>
 
         <button class="btn-print" onclick="doPrint()">🚀 Generate Master PDF</button>
@@ -788,8 +788,9 @@
                 roleType:       getVal('in-role-type'),
                 currency:       currency,
                 total:          `${currency} ${curSym}${total.toFixed(2)}`,
-                paymentTerms:   getVal('in-pay-terms'),
-                printedAt:      new Date().toISOString()
+                paymentTerms:        getVal('in-pay-terms'),
+                serviceDescription:  getVal('in-service-summary'),
+                printedAt:           new Date().toISOString()
             };
         }
 
